@@ -20,9 +20,10 @@ pacman::p_load(dplyr,lubridate, ggplot2, tidyr, ggmap, gganimate)
 collar.dat <- readRDS(paste0(dataDir, "\\example_dat_2016.rds"))
 
 ## Format the variables we want for timeseries in gganimate
-collar.dat$Date <- as.Date(collar.dat$Date, format = "%m/%d/%Y")
-collar.dat$Herd_gender <- paste(collar.dat$Herd, collar.dat$Gender, sep =", ")
-collar.dat$ID_yr <- paste0(collar.dat$ID, collar.dat$Year)
+collar.dat %>%
+  mutate(Date = as.Date(Date, format="%m/%d/%Y"),
+         Herd_gender = paste(Herd, Gender, sep = ", "),
+         ID_yr = paste0(ID, Year)) -> collar.dat
 
 collars <- unique(collar.dat$ID_yr[which(collar.dat$Year==2016)])
 
